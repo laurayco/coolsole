@@ -2,6 +2,16 @@
 #include <windows.h>
 #include "../include/coolsole.hpp"
 
+bool Coolsole::is_bright(Coolsole::Color color)
+{
+	return color > ((int)Coolsole::White);
+}
+
+Coolsole::Color Coolsole::base_color(Coolsole::Color color)
+{
+	return Coolsole::Color(color&((int)Coolsole::White));
+}
+
 Coolsole::ColorState::ColorState(Coolsole::Color initial)
 {
 	push_color(initial);
@@ -82,7 +92,8 @@ void Coolsole::FormattedOutput::previous_background()
 
 Coolsole::ConsoleOutput::ConsoleSingleton Coolsole::ConsoleOutput::Singleton;
 
-#ifdef _WIN32
+#ifdef _WINDUR32
+
 	#include <windows.h>
 
 	Coolsole::ConsoleOutput::ConsoleOutput(HANDLE h):
@@ -107,16 +118,8 @@ Coolsole::ConsoleOutput::ConsoleSingleton Coolsole::ConsoleOutput::Singleton;
 			this->original_csbi.wAttributes
 		);
 	}
-#else
 
-	Coolsole::ConsoleOutput& Coolsole::ConsoleOutput::get_console()
-	{
-		if(Coolsole::ConsoleOutput::output!=nullptr){
-			return *Coolsole::ConsoleOutput::output;
-		}
-		Coolsole::ConsoleOutput::output = new Coolsole::ConsoleOutput();
-		return *Coolsole::ConsoleOutput::output;
-	}
+#else
 
 	Coolsole::ConsoleOutput::ConsoleOutput(): Coolsole::FormattedOutput()
 	{
@@ -126,6 +129,34 @@ Coolsole::ConsoleOutput::ConsoleSingleton Coolsole::ConsoleOutput::Singleton;
 			because... ?
 		*/
 	}
+
+	void Coolsole::ConsoleOutput::set_state(Coolsole::Color fg,Coolsole::Color bg)
+	{
+		//-------------------0123456
+		char* set_fg =      "\x1b[30m;";
+		char* set_fg_bold = "\x1b[30;1m;";
+		char* set_bg =      "\x1b[40m;";
+		char* set_bg_bold = "\x1b[40;1m;";
+		char* fg_code = Coolsole::is_bright(fg)? set_fg_bold:set_fg;
+		char* bg_code = Coolsole::is_bright(fg)? set_fg_bold:set_bg;
+		/*
+			Notice: I'm modifyinga char* variable here
+			that is assigned from a const char*.
+			This is not typically a good thing to do.
+			But since these variable's should only be
+			accessed from within this function, it should
+			be perfectly okay.
+		*/
+		fg_code[6] = Coolsole::base_color(fg);
+		bg_code[6] = Coolsole::base_color(bg);
+		std::cout<< fg_code << bg_code;
+	}
+
+	Coolsole::ConsoleOutput::~ConsoleOutput()
+	{
+		std::cout <<  "\x1b[0m";
+	}
+
 #endif
 
 int main()
