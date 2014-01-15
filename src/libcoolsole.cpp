@@ -150,8 +150,8 @@ void Coolsole::ConsoleOutput::set_state(Coolsole::Color fg,Coolsole::Color bg)
     	accessed from within this function, it should
     	be perfectly okay.
     */
-    set_fg_code[6] = Coolsole::base_color(fg);
-    set_bg_code[6] = Coolsole::base_color(bg);
+    set_fg_code[6] = (char)(((int)'0') + Coolsole::base_color(fg));
+    set_bg_code[6] = (char)(((int)'0') + Coolsole::base_color(bg));
     std::cout<< set_fg_code << bg_code;
 }
 
