@@ -2,6 +2,8 @@
 #include <windows.h>
 #include "../include/coolsole.hpp"
 
+#define COPY_STRING(s) strcpy((char*)malloc(strlen(s)+1),s)
+
 bool Coolsole::is_bright(Coolsole::Color color)
 {
 	return color > ((int)Coolsole::White);
@@ -133,12 +135,14 @@ Coolsole::ConsoleOutput::ConsoleSingleton Coolsole::ConsoleOutput::Singleton;
 	void Coolsole::ConsoleOutput::set_state(Coolsole::Color fg,Coolsole::Color bg)
 	{
 		//-------------------0123456
-		char* set_fg =      "\x1b[30m;";
-		char* set_fg_bold = "\x1b[30;1m;";
-		char* set_bg =      "\x1b[40m;";
-		char* set_bg_bold = "\x1b[40;1m;";
-		char* fg_code = Coolsole::is_bright(fg)? set_fg_bold:set_fg;
-		char* bg_code = Coolsole::is_bright(fg)? set_fg_bold:set_bg;
+		const char* set_fg =      "\x1b[30m;";
+		const char* set_fg_bold = "\x1b[30;1m;";
+		const char* set_bg =      "\x1b[40m;";
+		const char* set_bg_bold = "\x1b[40;1m;";
+		const char* fg_code = Coolsole::is_bright(fg)? set_fg_bold:set_fg;
+		const char* bg_code = Coolsole::is_bright(fg)? set_fg_bold:set_bg;
+		char* set_fg_code = COPY_STRING(fg_code);
+		char* set_bg_code = COPY_STRING(bg_code);
 		/*
 			Notice: I'm modifyinga char* variable here
 			that is assigned from a const char*.
@@ -147,9 +151,9 @@ Coolsole::ConsoleOutput::ConsoleSingleton Coolsole::ConsoleOutput::Singleton;
 			accessed from within this function, it should
 			be perfectly okay.
 		*/
-		fg_code[6] = Coolsole::base_color(fg);
-		bg_code[6] = Coolsole::base_color(bg);
-		std::cout<< fg_code << bg_code;
+		set_fg_code[6] = Coolsole::base_color(fg);
+		set_bg_code[6] = Coolsole::base_color(bg);
+		std::cout<< set_fg_code << bg_code;
 	}
 
 	Coolsole::ConsoleOutput::~ConsoleOutput()
