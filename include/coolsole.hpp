@@ -139,7 +139,7 @@ namespace Coolsole
 			protected:
 				virtual ConsoleOutput* make_instance()
 				{
-					#ifdef _WINDUR32
+					#ifdef _WIN32
 						return new ConsoleOutput(GetStdHandle( STD_OUTPUT_HANDLE ));
 					#else
 						return new ConsoleOutput();
@@ -147,7 +147,7 @@ namespace Coolsole
 				}
 		};
 		virtual void set_state(Color,Color);
-		#ifdef _WINDUR32
+		#ifdef _WIN32
 		    HANDLE console_handle;
 			CONSOLE_SCREEN_BUFFER_INFO original_csbi;
 			ConsoleOutput(HANDLE);

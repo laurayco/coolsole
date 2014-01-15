@@ -1,5 +1,4 @@
 #include <iostream>
-#include <windows.h>
 #include "../include/coolsole.hpp"
 
 #define COPY_STRING(s) strcpy((char*)malloc(strlen(s)+1),s)
@@ -94,7 +93,7 @@ void Coolsole::FormattedOutput::previous_background()
 
 Coolsole::ConsoleOutput::ConsoleSingleton Coolsole::ConsoleOutput::Singleton;
 
-#ifdef _WINDUR32
+#ifdef _WIN32
 
 	#include <windows.h>
 
@@ -162,17 +161,3 @@ Coolsole::ConsoleOutput::ConsoleSingleton Coolsole::ConsoleOutput::Singleton;
 	}
 
 #endif
-
-int main()
-{
-	Coolsole::FormattedOutput& FormatControl = Coolsole::ConsoleOutput::Singleton.get_instance();
-
-	std::cout<<"Testing formatting..."<<std::endl;
-
-	FormatControl.foreground(Coolsole::Red);
-	FormatControl.background(Coolsole::BrightWhite);
-
-	std::cout<<"Did it work!?"<<std::endl;
-
-	return 0;
-}
