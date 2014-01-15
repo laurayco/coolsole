@@ -25,6 +25,7 @@ class SingletonContainer;
 		http://en.wikipedia.org/wiki/ANSI_escape_code#Colors
 */
 enum Color {
+#ifdef _WIN32
     Black = 0,
     Blue = 1,
     Green = 2,
@@ -41,6 +42,24 @@ enum Color {
     BrightPurple = 13,
     BrightYellow = 14,
     BrightWhite = 15
+#else
+    Black = 0,
+    Blue = 4,
+    Green = 2,
+    Yellow = 3,
+    Aqua = 6,
+    Red = 1,
+    Purple = 5,
+    White = 7,
+    Gray = 8,
+    BrightBlue = 8 + 4,
+    BrightGreen = 8 + 2,
+    BrightAqua = 8 + 6,
+    BrightRed = 8 + 1,
+    BrightPurple = 8 + 5,
+    BrightYellow = 8 + 3,
+    BrightWhite = 8 + 7
+#endif
 };
 
 //returns true if the color is bright.
@@ -85,6 +104,7 @@ public:
     void background(Color);
     void previous_foreground();
     void previous_background();
+    virtual void reset() = 0;
 protected:
     ColorState _foreground, _background;
     FormattedOutput();
@@ -147,6 +167,7 @@ public:
         }
     };
     virtual void set_state(Color,Color);
+    virtual void reset();
 #ifdef _WIN32
     HANDLE console_handle;
     CONSOLE_SCREEN_BUFFER_INFO original_csbi;
