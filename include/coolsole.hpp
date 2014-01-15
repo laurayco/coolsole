@@ -43,6 +43,10 @@ namespace Coolsole
 			BrightWhite = 15
 	};
 
+	//returns true if the color is bright.
+	bool is_bright(Color);
+	//returns the non-bright version of otherwise bright colors.
+	Color base_color(Color);
 
 	/*
 		This class is entirely not
@@ -135,7 +139,7 @@ namespace Coolsole
 			protected:
 				virtual ConsoleOutput* make_instance()
 				{
-					#ifdef _WIN32
+					#ifdef _WINDUR32
 						return new ConsoleOutput(GetStdHandle( STD_OUTPUT_HANDLE ));
 					#else
 						return new ConsoleOutput();
@@ -143,17 +147,15 @@ namespace Coolsole
 				}
 		};
 		virtual void set_state(Color,Color);
-		#ifdef _WIN32
+		#ifdef _WINDUR32
+		    HANDLE console_handle;
+			CONSOLE_SCREEN_BUFFER_INFO original_csbi;
 			ConsoleOutput(HANDLE);
 		#else
 			ConsoleOutput();
 		#endif
-		virtual ~ConsoleOutput();
-		#ifdef _WIN32
-		    HANDLE console_handle;
-			CONSOLE_SCREEN_BUFFER_INFO original_csbi;
-		#endif
 		static ConsoleSingleton Singleton;
+		virtual ~ConsoleOutput();
 	};
 
 }
