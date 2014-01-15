@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdlib>
+#include <cstring>
 #include "../include/coolsole.hpp"
 
 #define COPY_STRING(s) strcpy((char*)malloc(strlen(s)+1),s)
@@ -93,6 +95,11 @@ void Coolsole::FormattedOutput::previous_background()
 
 Coolsole::ConsoleOutput::ConsoleSingleton Coolsole::ConsoleOutput::Singleton;
 
+Coolsole::ConsoleOutput::~ConsoleOutput()
+{
+    this->reset();
+}
+
 #ifdef _WIN32
 
 #include <windows.h>
@@ -112,7 +119,7 @@ void Coolsole::ConsoleOutput::set_state(Coolsole::Color fg,Coolsole::Color bg)
     );
 }
 
-Coolsole::ConsoleOutput::~ConsoleOutput()
+void Coolsole::ConsoleOutput::reset()
 {
     SetConsoleTextAttribute(
         this->console_handle,
@@ -133,15 +140,14 @@ Coolsole::ConsoleOutput::ConsoleOutput(): Coolsole::FormattedOutput()
 
 void Coolsole::ConsoleOutput::set_state(Coolsole::Color fg,Coolsole::Color bg)
 {
-    //-------------------0123456
-    const char* set_fg =      "\x1b[30m;";
-    const char* set_fg_bold = "\x1b[30;1m;";
-    const char* set_bg =      "\x1b[40m;";
-    const char* set_bg_bold = "\x1b[40;1m;";
+    const char* start_code = "\033[";
+    const char* set_fg =      "30;";
+    const char* set_fg_bold = "30;1;";
+    const char* set_bg =      "40";
+    const char* end_code = "m";
     const char* fg_code = Coolsole::is_bright(fg)? set_fg_bold:set_fg;
-    const char* bg_code = Coolsole::is_bright(fg)? set_fg_bold:set_bg;
     char* set_fg_code = COPY_STRING(fg_code);
-    char* set_bg_code = COPY_STRING(bg_code);
+    char* set_bg_code = COPY_STRING(set_bg);
     /*
     	Notice: I'm modifyinga char* variable here
     	that is assigned from a const char*.
@@ -150,14 +156,14 @@ void Coolsole::ConsoleOutput::set_state(Coolsole::Color fg,Coolsole::Color bg)
     	accessed from within this function, it should
     	be perfectly okay.
     */
-    set_fg_code[6] = (char)(((int)'0') + Coolsole::base_color(fg));
-    set_bg_code[6] = (char)(((int)'0') + Coolsole::base_color(bg));
-    std::cout<< set_fg_code << bg_code;
+    set_fg_code[1] = (char)(((int)'0') + Coolsole::base_color(fg));
+    set_bg_code[1] = (char)(((int)'0') + Coolsole::base_color(bg));
+    std::cout<< start_code << set_fg_code << set_bg_code << end_code;
 }
 
-Coolsole::ConsoleOutput::~ConsoleOutput()
+void Coolsole::ConsoleOutput::reset()
 {
-    std::cout <<  "\x1b[0m";
+    std::cout <<  "\033[0m";
 }
 
 #endif
