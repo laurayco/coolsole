@@ -80,17 +80,16 @@ void Coolsole::FormattedOutput::previous_background()
 	this->set_state(this->foreground(),this->background());
 }
 
+Coolsole::ConsoleOutput::ConsoleSingleton Coolsole::ConsoleOutput::Singleton;
+
 #ifdef _WIN32
 	#include <windows.h>
-
-	Coolsole::ConsoleOutput::ConsoleSingleton Coolsole::ConsoleOutput::Singleton();
 
 	Coolsole::ConsoleOutput::ConsoleOutput(HANDLE h):
 		Coolsole::FormattedOutput()
 	{
 		this->console_handle = h;
 		GetConsoleScreenBufferInfo( this->console_handle, &(this->original_csbi) );
-		std::cout<<"Original: "<<this->original_csbi.wAttributes<<std::endl;
 	}
 
 	void Coolsole::ConsoleOutput::set_state(Coolsole::Color fg,Coolsole::Color bg)

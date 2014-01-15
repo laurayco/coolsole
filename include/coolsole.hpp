@@ -129,7 +129,7 @@ namespace Coolsole
 	*/
 	class ConsoleOutput: public FormattedOutput
 	{
-	protected:
+	public:
 		class ConsoleSingleton: public SingletonContainer<ConsoleOutput>
 		{
 			protected:
@@ -149,7 +149,6 @@ namespace Coolsole
 			ConsoleOutput();
 		#endif
 		virtual ~ConsoleOutput();
-	public:
 		#ifdef _WIN32
 		    HANDLE console_handle;
 			CONSOLE_SCREEN_BUFFER_INFO original_csbi;
