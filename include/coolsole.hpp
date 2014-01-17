@@ -127,10 +127,7 @@ namespace Coolsole {
   class SingletonContainer {
     protected:
       Type *instance;
-      Type *make_instance()
-      {
-        return new Type();
-      }
+      Type *make_instance();
     public:
       SingletonContainer(Type *ptr = nullptr):
         instance(ptr)

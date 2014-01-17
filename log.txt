@@ -1,0 +1,9 @@
+C:\Users\TYLER~1.ELR\AppData\Local\Temp\ccb3AbAd.o:test-main.cpp:(.text+0x1a): undefined reference to `Coolsole::ConsoleOutput::Singleton'
+C:\Users\TYLER~1.ELR\AppData\Local\Temp\ccb3AbAd.o:test-main.cpp:(.text+0x4f): undefined reference to `Coolsole::FormatState::FormatState(Coolsole::FormattedOutput&, Coolsole::FormatState::Color, Coolsole::FormatState::Color, bool)'
+C:\Users\TYLER~1.ELR\AppData\Local\Temp\ccb3AbAd.o:test-main.cpp:(.text+0x7e): undefined reference to `Coolsole::StreamFormatter::insert(Coolsole::FormatState const&)'
+C:\Users\TYLER~1.ELR\AppData\Local\Temp\ccb3AbAd.o:test-main.cpp:(.text+0x9a): undefined reference to `Coolsole::operator<<(std::ostream&, Coolsole::StreamFormatter::FormatInsertion const&)'
+C:\Users\TYLER~1.ELR\AppData\Local\Temp\ccb3AbAd.o:test-main.cpp:(.text+0xc8): undefined reference to `Coolsole::StreamFormatter::previous()'
+C:\Users\TYLER~1.ELR\AppData\Local\Temp\ccb3AbAd.o:test-main.cpp:(.text+0xde): undefined reference to `Coolsole::operator<<(std::ostream&, Coolsole::StreamFormatter::FormatReset const&)'
+C:\Users\TYLER~1.ELR\AppData\Local\Temp\ccb3AbAd.o:test-main.cpp:(.text$_ZN8Coolsole18SingletonContainerINS_13ConsoleOutputEE12get_instanceEv[__ZN8Coolsole18SingletonContainerINS_13ConsoleOutputEE12get_instanceEv]+0xfffffffffffff81f): undefined reference to `Coolsole::SingletonContainer<Coolsole::ConsoleOutput>::make_instance()'
+c:/mingw/bin/../lib/gcc/mingw32/4.8.1/../../../../mingw32/bin/ld.exe: C:\Users\TYLER~1.ELR\AppData\Local\Temp\ccb3AbAd.o: bad reloc address 0x1f in section `.text$_ZN8Coolsole18SingletonContainerINS_13ConsoleOutputEE12get_instanceEv[__ZN8Coolsole18SingletonContainerINS_13ConsoleOutputEE12get_instanceEv]'
+collect2.exe: error: ld returned 1 exit status

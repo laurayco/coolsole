@@ -7,7 +7,7 @@ using namespace Coolsole;
 
 int main(int argc,char **argv)
 {
-  FormattedOutput &format_control = ConsoleOutput::Singleton.get_instance();
+  StreamFormatter &format_control = ConsoleOutput::Singleton.get_instance();
   FormatState formats[] = {
     FormatState(format_control,FormatState::Blue,FormatState::Green,true)
   };
@@ -15,8 +15,8 @@ int main(int argc,char **argv)
   {
     std::cout << format_control.insert(formats[i]);
     std::cout << "Testing format: " << i;
-    std::cout << format_control.reset();
-    std::cout << endl;
+    std::cout << format_control.previous();
+    std::cout << std::endl;
   }
   return 0;
 }
