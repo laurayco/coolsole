@@ -21,7 +21,7 @@ namespace Coolsole {
   }
 
   void FormatState::apply() {
-    this->output.set_state(_fg,_bg,_bold);
+    this->output.Format(*this);
   }
 
   FormatState::~FormatState()

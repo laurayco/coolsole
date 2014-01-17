@@ -86,7 +86,7 @@ namespace Coolsole {
   */
   class FormattedOutput {
     public:
-      const FormatState &Format() const;
+      const FormatState Format() const;
       void Format(FormatState &);
       virtual void reset() = 0;//return to default formating.
       virtual void revert();

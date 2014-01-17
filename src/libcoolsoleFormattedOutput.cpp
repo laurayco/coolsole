@@ -10,17 +10,17 @@ namespace Coolsole {
     return this->History.top();
   }
 
-  void FormattedOutput::Format(const FormatState state)
+  void FormattedOutput::Format(FormatState &state)
   {
     this->History.push(state);
-    this->set_state(state->foreground(),state->background(),state->bool());
+    this->set_state(state.foreground(),state.background(),state.bold());
   }
 
   void FormattedOutput::revert()
   {
     this->History.pop();
     const FormatState state = this->Format();
-    this->set_state(state->foreground(),state->background(),state->bool());
+    this->set_state(state.foreground(),state.background(),state.bold());
   }
 
   FormattedOutput::~FormattedOutput()
