@@ -8,34 +8,15 @@ using namespace Coolsole;
 int main(int argc,char **argv)
 {
   FormattedOutput &format_control = ConsoleOutput::Singleton.get_instance();
-  Color color_cycle[] = {
-    Black,
-    Blue,
-    Red,
-    White,
-    Green,
-    Purple,
-    Aqua,
-    Gray,
-    BrightBlue,
-    BrightRed,
-    BrightWhite,
-    BrightGreen,
-    BrightPurple,
-    BrightAqua
+  FormatState formats[] = {
+    FormatState(format_control,FormatState::Blue,FormatState::Green,true)
   };
-  for(unsigned int i=0; i<(sizeof(color_cycle)/sizeof(Color)); i++)
+  for(unsigned int i=0; i<(sizeof(formats)/sizeof(FormatState)); i++)
   {
-    format_control.foreground(color_cycle[i]);
-    std::cout<<"Testing:"<<color_cycle[i]<<"::"<<i<<std::endl;
-    format_control.previous_foreground();
-  }
-  format_control.reset();
-  for(unsigned int i=0; i<(sizeof(color_cycle)/sizeof(Color)); i++)
-  {
-    format_control.background(color_cycle[i]);
-    std::cout<<"Testing:"<<color_cycle[i]<<"::"<<i<<std::endl;
-    format_control.previous_background();
+    std::cout << format_control.insert(formats[i]);
+    std::cout << "Testing format: " << i;
+    std::cout << format_control.reset();
+    std::cout << endl;
   }
   return 0;
 }

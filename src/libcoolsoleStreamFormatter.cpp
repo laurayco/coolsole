@@ -5,7 +5,7 @@
 
 namespace Coolsole {
 
-  StreamFormatter::FormatInsertion::FormatInsertion(StreamFormatter & sf,const FormatState & fs):
+  StreamFormatter::FormatInsertion::FormatInsertion(StreamFormatter &sf,const FormatState &fs):
     formatter(sf),
     state(fs)
   {
