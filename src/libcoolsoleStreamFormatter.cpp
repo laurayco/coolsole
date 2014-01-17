@@ -21,19 +21,19 @@ namespace Coolsole {
     return FormatInsertion(*this,state);
   }
 
-  const StreamFormatter::StreamFormatter::FormatReset StreamFormatter::reset()
+  const StreamFormatter::StreamFormatter::FormatReset StreamFormatter::previous()
   {
     return FormatReset(*this);
   }
 }
 
-std::ostream &operator << ( std::ostream &out, const Coolsole::FormatInsertion &fi)
+std::ostream &operator << ( std::ostream &out, const Coolsole::StreamFormatter::FormatInsertion &fi)
 {
   fi.formatter.Format(fi.state);
   return out;
 }
 
-std::ostream &operator << ( std::ostream &out, const Coolsole::FormatReset &fr)
+std::ostream &operator << ( std::ostream &out, const Coolsole::StreamFormatter::FormatReset &fr)
 {
   fr.formatter.revert();
   return out;

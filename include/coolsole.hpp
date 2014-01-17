@@ -87,7 +87,7 @@ namespace Coolsole {
   class FormattedOutput {
     public:
       const FormatState Format() const;
-      void Format(FormatState &);
+      void Format(const FormatState &);
       virtual void reset() = 0;//return to default formating.
       virtual void revert();
       virtual ~FormattedOutput();
@@ -108,7 +108,7 @@ namespace Coolsole {
         public:
           FormatInsertion(StreamFormatter &,const FormatState &);
           StreamFormatter &formatter;
-          FormatState &state;
+          const FormatState &state;
           friend std::ostream &operator << ( std::ostream &, const FormatInsertion &);
       };
       class FormatReset {
