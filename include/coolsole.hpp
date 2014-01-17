@@ -11,20 +11,19 @@
 #define nullptr NULL
 #endif
 
-namespace Coolsole
-{
+namespace Coolsole {
 
-class ColorState;
-class FormattedOutput;
+  class ColorState;
+  class FormattedOutput;
 
-template<typename>
-class SingletonContainer;
+  template<typename>
+  class SingletonContainer;
 
-/*
-	Color Codes found here:
-		http://en.wikipedia.org/wiki/ANSI_escape_code#Colors
-*/
-enum Color {
+  /*
+    Color Codes found here:
+      http://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+  */
+  enum Color {
 #ifdef _WIN32
     Black = 0,
     Blue = 1,
@@ -60,124 +59,119 @@ enum Color {
     BrightYellow = 8 + 3,
     BrightWhite = 8 + 7
 #endif
-};
+  };
 
 //returns true if the color is bright.
-bool is_bright(Color);
+  bool is_bright(Color);
 //returns the non-bright version of otherwise bright colors.
-Color base_color(Color);
+  Color base_color(Color);
 
-/*
-	This class is entirely not
-	necessary. It's just here
-	for the sake of inheritance,
-	and practical extendability.
-*/
-class ColorState
-{
-protected:
-    std::stack<Color> colors;
-public:
-    virtual void push_color(Color);
-    virtual Color pop_color();
-    operator Color () const;
-    Color current_color() const;
-    ColorState(Color);
-};
+  /*
+    This class is entirely not
+    necessary. It's just here
+    for the sake of inheritance,
+    and practical extendability.
+  */
+  class ColorState {
+    protected:
+      std::stack<Color> colors;
+    public:
+      virtual void push_color(Color);
+      virtual Color pop_color();
+      operator Color () const;
+      Color current_color() const;
+      ColorState(Color);
+  };
 
-/*
-	Again, here simply for the purpose
-	of inheritance. Maybe adding an
-	HTML-output could be a good idea.
-	Could base this on detecting
-	CGI, and returnning a HTML-output
-	instance in the get_console()
-	function or something. That would
-	be pretty cool, jyah?
-*/
-class FormattedOutput
-{
-public:
-    Color foreground() const;
-    Color background() const;
-    void foreground(Color);
-    void background(Color);
-    void previous_foreground();
-    void previous_background();
-    virtual void reset() = 0;
-protected:
-    ColorState _foreground, _background;
-    FormattedOutput();
-    virtual void set_state(Color,Color)=0;
-};
+  /*
+    Again, here simply for the purpose
+    of inheritance. Maybe adding an
+    HTML-output could be a good idea.
+    Could base this on detecting
+    CGI, and returnning a HTML-output
+    instance in the get_console()
+    function or something. That would
+    be pretty cool, jyah?
+  */
+  class FormattedOutput {
+    public:
+      Color foreground() const;
+      Color background() const;
+      void foreground(Color);
+      void background(Color);
+      void previous_foreground();
+      void previous_background();
+      virtual void reset() = 0;
+    protected:
+      ColorState _foreground, _background;
+      FormattedOutput();
+      virtual void set_state(Color,Color)=0;
+  };
 
-template<typename Type>
-class SingletonContainer
-{
-protected:
-    Type* instance;
-    virtual Type* make_instance() = 0;
-public:
-    SingletonContainer(Type* ptr = nullptr):
+  template<typename Type>
+  class SingletonContainer {
+    protected:
+      Type *instance;
+      virtual Type *make_instance() = 0;
+    public:
+      SingletonContainer(Type *ptr = nullptr):
         instance(ptr)
-    {
-    }
+      {
+      }
 
-    Type& get_instance()
-    {
+      Type &get_instance()
+      {
         if(instance!=nullptr)
         {
-            return *instance;
+          return *instance;
         }
         instance = make_instance();
         return *instance;
-    }
+      }
 
-    ~SingletonContainer()
-    {
+      ~SingletonContainer()
+      {
         if(instance!=nullptr)
         {
-            delete instance;
+          delete instance;
         }
-    }
-};
+      }
+  };
 
-/*
-	Because only std::out will support
-	any kind of text formatting,
-	we will make this a singleton type
-	object. Notice however, that this
-	singleton instance does inherit
-	from the potentially non-singleton
-	FormattedOutput class.
-*/
-class ConsoleOutput: public FormattedOutput
-{
-public:
-    class ConsoleSingleton: public SingletonContainer<ConsoleOutput>
-    {
-    protected:
-        virtual ConsoleOutput* make_instance()
-        {
+  /*
+    Because only std::out will support
+    any kind of text formatting,
+    we will make this a singleton type
+    object. Notice however, that this
+    singleton instance does inherit
+    from the potentially non-singleton
+    FormattedOutput class.
+  */
+  class ConsoleOutput: public FormattedOutput {
+    public:
+      class ConsoleSingleton: public SingletonContainer<ConsoleOutput> {
+        protected:
+          virtual ConsoleOutput *make_instance()
+          {
 #ifdef _WIN32
             return new ConsoleOutput(GetStdHandle( STD_OUTPUT_HANDLE ));
 #else
             return new ConsoleOutput();
 #endif
-        }
-    };
-    virtual void set_state(Color,Color);
-    virtual void reset();
+          }
+      };
+      virtual void set_state(Color,Color);
+      virtual void reset();
 #ifdef _WIN32
-    HANDLE console_handle;
-    CONSOLE_SCREEN_BUFFER_INFO original_csbi;
-    ConsoleOutput(HANDLE);
+      HANDLE console_handle;
+      CONSOLE_SCREEN_BUFFER_INFO original_csbi;
+      ConsoleOutput(HANDLE);
 #else
-    ConsoleOutput();
+      ConsoleOutput();
 #endif
-    static ConsoleSingleton Singleton;
-    virtual ~ConsoleOutput();
-};
+      static ConsoleSingleton Singleton;
+      virtual ~ConsoleOutput();
+  };
 
 }
 
