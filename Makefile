@@ -6,6 +6,7 @@ OBJ_EXTENSION := .o
 
 TEST := bin/$(PROJECT_NAME)-TEST
 LIB := lib/lib$(PROJECT_NAME)$(LIB_EXTENSION)
+LIB_OBJS := $(patsubst %.cpp, %$(OBJ_EXTENSION),$(patsubst src/%, obj/%,$(wildcard src/lib$(PROJECT_NAME)*.cpp)))
 MODULE := lib/lib$(PROJECT_NAME)MODULE$(LIB_EXTENSION)
 
 BIN_FILES = $(LIB) $(TEST)
@@ -23,8 +24,6 @@ all: pretty $(BIN_FILES)
 
 rebuild: clean all
 
-library: $(LIB)
-
 pretty: $(wildcard src/*.cpp) $(wildcard include/*.hpp) $(wildcard include/*.h)
 	@AStyle $^ $(ASTYLE_OPTIONS)
 
@@ -35,13 +34,13 @@ clean:
 run: all
 	@$(TEST)
 
-lib/%$(LIB_EXTENSION): obj/%$(OBJ_EXTENSION)
+$(LIB): $(LIB_OBJS)
 	@ar rvs $@ $<
 
 obj/%$(OBJ_EXTENSION): src/%.cpp
 	@g++ -o $@ $^ $(CXXFLAGS) -c
 
-test: library $(TEST)
+test: $(LIB) $(TEST)
 
 $(TEST): $(TEST_OBJS)
 	@g++ $^ -o $@ $(CXXFLAGS) -L./lib -l$(PROJECT_NAME)
