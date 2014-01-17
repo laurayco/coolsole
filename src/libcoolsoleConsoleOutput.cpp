@@ -20,6 +20,8 @@ namespace Coolsole {
       }
   };
 
+  SingletonContainer<ConsoleOutput> ConsoleOutput::Singleton;
+
   void ConsoleOutput::set_state(FormatState::Color fg,FormatState::Color bg, bool bold)
   {
 #ifdef _WIN32

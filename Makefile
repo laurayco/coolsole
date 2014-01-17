@@ -6,7 +6,8 @@ OBJ_EXTENSION := .o
 
 TEST := bin/$(PROJECT_NAME)-TEST
 LIB := lib/lib$(PROJECT_NAME)$(LIB_EXTENSION)
-LIB_OBJS := $(patsubst %.cpp, %$(OBJ_EXTENSION),$(patsubst src/%, obj/%,$(wildcard src/lib$(PROJECT_NAME)*.cpp)))
+LIB_SRC :=$(wildcard src/lib$(PROJECT_NAME)*.cpp)
+LIB_OBJS := $(patsubst %.cpp, %.o,$(patsubst src/%, obj/%,$(LIB_SRC)))
 MODULE := lib/lib$(PROJECT_NAME)MODULE$(LIB_EXTENSION)
 
 BIN_FILES = $(LIB) $(TEST)
@@ -35,7 +36,7 @@ run: all
 	@$(TEST)
 
 $(LIB): $(LIB_OBJS)
-	@ar rvs $@ $<
+	@ar rvs $@ $^
 
 obj/%$(OBJ_EXTENSION): src/%.cpp
 	@g++ -o $@ $^ $(CXXFLAGS) -c

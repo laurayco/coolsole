@@ -93,8 +93,7 @@ namespace Coolsole {
       virtual ~FormattedOutput();
     protected:
       std::stack<FormatState> History;
-      FormatState &DefaultState;
-      FormattedOutput();
+      //FormatState &DefaultState;
       virtual void set_state(FormatState::Color,FormatState::Color,bool)=0;
   };
 
