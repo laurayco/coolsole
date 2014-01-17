@@ -3,21 +3,30 @@
 #include <cstring>
 #include "../include/coolsole.hpp"
 
-using namespace Coolsole;
+namespace Coolsole {
 
-const FormatState& FormattedOutput::Format() const
-{
-	return *(this->CurrentState);
+  const FormatState FormattedOutput::Format() const
+  {
+    return this->History.top();
+  }
+
+  void FormattedOutput::Format(const FormatState state)
+  {
+    this->History.push(state);
+    this->set_state(state->foreground(),state->background(),state->bool());
+  }
+
+  void FormattedOutput::revert()
+  {
+    this->History.pop();
+    const FormatState state = this->Format();
+    this->set_state(state->foreground(),state->background(),state->bool());
+  }
+
+  FormattedOutput::~FormattedOutput()
+  {
+    this->reset();
+  }
+
 }
 
-void FormattedOutput::Format(FormatState* state)
-{
-	//state.hold(this->CurrentState);
-	this->CurrentState = state;
-	this->set_state(state->foreground(),state->background(),state->bool());
-}
-
-FormattedOutput::~FormattedOutput()
-{
-	this->reset();
-}
