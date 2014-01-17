@@ -5,34 +5,36 @@
 
 namespace Coolsole {
 
-  StreamFormatter::FormatInsertion::FormatInsertion(StreamFormatter &sf,FormatState fs):
+  StreamFormatter::FormatInsertion::FormatInsertion(StreamFormatter & sf,const FormatState & fs):
     formatter(sf),
     state(fs)
   {
   }
 
-  StreamFormatter::FormatReset::FormatReset(StreamFormatter &sf):
+  StreamFormatter::FormatReset::FormatReset (StreamFormatter &sf):
     formatter(sf)
   {
   }
 
-  std::ostream &operator << ( std::ostream &out, const FormatInsertion &fi)
+  const StreamFormatter::FormatInsertion StreamFormatter::insert(const FormatState &state)
   {
-    fi.formatter.Format(fi.state);
+    return FormatInsertion(*this,state);
   }
 
-  std::ostream &operator << ( std::ostream &out, const FormatReset &fr)
+  const StreamFormatter::StreamFormatter::FormatReset StreamFormatter::reset()
   {
-    fi.formatter.revert();
+    return FormatReset(*this);
   }
+}
 
-  StreamFormatter::insert(const FormatState &state)
-  {
-    return StreamFormatter::FormatInsertion(*this,state);
-  }
+std::ostream &operator << ( std::ostream &out, const Coolsole::FormatInsertion &fi)
+{
+  fi.formatter.Format(fi.state);
+  return out;
+}
 
-  StreamFormatter::reset()
-  {
-    return StreamFormatter::FormatReset(*this);
-  }
+std::ostream &operator << ( std::ostream &out, const Coolsole::FormatReset &fr)
+{
+  fr.formatter.revert();
+  return out;
 }

@@ -101,13 +101,12 @@ namespace Coolsole {
   // basically provides convenience functionality for
   // std::cout << Formatter.insert(FormatState(Color)) << "colored text";
   // std::cout << Formatter.reset() << std::endl;
-  class StreamFormatter {
+  class StreamFormatter: public FormattedOutput {
     public:
       virtual void reset() = 0;
       class FormatInsertion {
         public:
-          FormatInsertion(StreamFormatter &,FormatState &);
-        private:
+          FormatInsertion(StreamFormatter &,const FormatState &);
           StreamFormatter &formatter;
           FormatState &state;
           friend std::ostream &operator << ( std::ostream &, const FormatInsertion &);
@@ -115,7 +114,6 @@ namespace Coolsole {
       class FormatReset {
         public:
           FormatReset(StreamFormatter &);
-        private:
           StreamFormatter &formatter;
           friend std::ostream &operator << ( std::ostream &, const FormatReset &);
       };
@@ -166,7 +164,7 @@ namespace Coolsole {
     from the potentially non-singleton
     FormattedOutput class.
   */
-  class ConsoleOutput: public FormattedOutput {
+  class ConsoleOutput: public StreamFormatter {
     public:
       virtual void set_state(FormatState::Color,FormatState::Color,bool);//fg,bg,bold
       virtual void reset();
