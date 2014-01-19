@@ -17,7 +17,7 @@ namespace Coolsole {
     _out.revert();
   }
 
-  const FormatState::ScopeHolder FormatState::format_scope(FormattedOutput &o)
+  const FormatState::ScopeHolder FormatState::format_scope(FormattedOutput &o) const
   {
     return FormatState::ScopeHolder(*this,o);
   }

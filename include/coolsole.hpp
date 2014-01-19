@@ -71,7 +71,7 @@ namespace Coolsole {
       const Color foreground() const;
       const Color background() const;
       const bool bold() const;
-      const ScopeHolder format_scope(FormattedOutput &);
+      const ScopeHolder format_scope(FormattedOutput &) const;
     protected:
       const Color _fg, _bg;
       const bool _bold;
