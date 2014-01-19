@@ -22,4 +22,16 @@ namespace Coolsole {
     return new ConsoleOutput();
 #endif
   }
+
+  std::ostream &operator << ( std::ostream &out, const Coolsole::StreamFormatter::FormatInsertion &fi)
+  {
+    fi.formatter.Format(fi.state);
+    return out;
+  }
+
+  std::ostream &operator << ( std::ostream &out, const Coolsole::StreamFormatter::FormatReset &fr)
+  {
+    fr.formatter.revert();
+    return out;
+  }
 }
