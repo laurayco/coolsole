@@ -83,7 +83,7 @@ namespace Coolsole {
     public:
       const FormatState Format() const;
       void Format(const FormatState &);
-      virtual void reset() = 0;//return to default formating.
+      virtual void reset();//return to default formating.
       virtual void revert();
       virtual ~FormattedOutput();
     protected:

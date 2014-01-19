@@ -19,8 +19,15 @@ namespace Coolsole {
   void FormattedOutput::revert()
   {
     this->History.pop();
-    const FormatState state = this->Format();
-    this->set_state(state.foreground(),state.background(),state.bold());
+    if(this->History.size()<1)
+    {
+      this->reset();
+    }
+    else
+    {
+      const FormatState state = this->Format();
+      this->set_state(state.foreground(),state.background(),state.bold());
+    }
   }
 
   void FormattedOutput::reset()

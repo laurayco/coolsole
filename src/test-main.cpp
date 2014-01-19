@@ -15,7 +15,6 @@ int main(int argc,char **argv)
   };
   for(unsigned int i=0; i<(sizeof(formats)/sizeof(FormatState)); i++)
   {
-    //format_control.Format(formats[i]);
     std::cout << format_control.insert(formats[i]);
     std::cout << "Testing format: " << i;
     std::cout << std::endl;
