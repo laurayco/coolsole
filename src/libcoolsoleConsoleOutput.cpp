@@ -53,5 +53,9 @@ namespace Coolsole {
   {
   }
 #endif
+  ConsoleOutput::~ConsoleOutput()
+  {
+    this->reset();
+  }
 
 }

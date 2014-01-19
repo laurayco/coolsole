@@ -23,6 +23,10 @@ namespace Coolsole {
     this->set_state(state.foreground(),state.background(),state.bold());
   }
 
+  void FormattedOutput::reset()
+  {
+  }
+
   FormattedOutput::~FormattedOutput()
   {
     this->reset();

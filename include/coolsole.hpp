@@ -13,14 +13,11 @@
 
 namespace Coolsole {
 
-#ifdef _WIN32
-#else
-  extern const char *Coolsole::START_CODE;
-  extern const char *Coolsole::SET_FG;
-  extern const char *Coolsole::SET_BOLD;
-  extern const char *Coolsole::SET_BG;
-  extern  const char *Coolsole::END_CODE;
-#endif
+  extern const char *START_CODE;
+  extern const char *SET_FG;
+  extern const char *SET_BOLD;
+  extern const char *SET_BG;
+  extern  const char *END_CODE;
 
   class ColorState;
   class FormattedOutput;
@@ -102,7 +99,6 @@ namespace Coolsole {
   // std::cout << Formatter.reset() << std::endl;
   class StreamFormatter: public FormattedOutput {
     public:
-      virtual void reset() = 0;
       class FormatInsertion {
         public:
           FormatInsertion(StreamFormatter &,const FormatState &);
@@ -164,6 +160,7 @@ namespace Coolsole {
     public:
       virtual void set_state(FormatState::Color,FormatState::Color,bool);//fg,bg,bold
       virtual void reset();
+      virtual ~ConsoleOutput();
 #ifdef _WIN32
       HANDLE console_handle;
       CONSOLE_SCREEN_BUFFER_INFO original_csbi;
