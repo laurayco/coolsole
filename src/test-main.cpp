@@ -19,8 +19,8 @@ class Token {
 
 std::ostream &operator << ( std::ostream &out, const Token &token)
 {
-  auto format_holder = token.format.format_scope(ConsoleOutput::Singleton.get_instance());
-  out << token.str << " ";
+  StreamFormatter &formatter = ConsoleOutput::Singleton.get_instance();
+  out << formatter.insert(token.format) << token.str << formatter.previous() << " ";
   return out;
 }
 
