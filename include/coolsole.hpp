@@ -53,6 +53,14 @@ namespace Coolsole {
         White = 7
 #endif
       };
+      class ScopeHolder {
+        private:
+          const FormatState &_fs;
+          FormattedOutput &_out;
+        public:
+          ScopeHolder(const FormatState,FormattedOutput &);
+          ~ScopeHolder();
+      };
       FormatState();
       FormatState(const FormatState &);
       FormatState(Color); //fg
@@ -63,6 +71,7 @@ namespace Coolsole {
       const Color foreground() const;
       const Color background() const;
       const bool bold() const;
+      const ScopeHolder format_scope(FormattedOutput &);
     protected:
       const Color _fg, _bg;
       const bool _bold;

@@ -5,6 +5,23 @@
 
 namespace Coolsole {
 
+  FormatState::ScopeHolder::ScopeHolder(const FormatState fs, FormattedOutput &fo):
+    _fs(fs),
+    _out(fo)
+  {
+    _out.Format(fs);
+  }
+
+  FormatState::ScopeHolder::~ScopeHolder()
+  {
+    _out.revert();
+  }
+
+  const FormatState::ScopeHolder FormatState::format_scope(FormattedOutput &o)
+  {
+    return FormatState::ScopeHolder(*this,o);
+  }
+
   const FormatState::Color FormatState::foreground() const
   {
     return this->_fg;

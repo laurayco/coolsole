@@ -15,14 +15,8 @@ int main(int argc,char **argv)
   };
   for(unsigned int i=0; i<(sizeof(formats)/sizeof(FormatState)); i++)
   {
-    std::cout << format_control.insert(formats[i]);
-    std::cout << "Testing format: " << i;
-    std::cout << std::endl;
-    std::cout << "and...control." ;
-    std::cout << format_control.previous();
-    std::cout << std::endl << "How'd it do?!";
-    std::cout << std::endl;
-    //format_control.revert();
+    auto format_holder = formats[i].format_scope(format_control);
+    std::cout << "There has been formatting applied to this entire scope." << std::endl;
   }
   return 0;
 }
