@@ -8,18 +8,6 @@
 
 namespace Coolsole {
 
-  template<>
-  class SingletonContainer<ConsoleOutput> {
-      ConsoleOutput *make_instance()
-      {
-#ifdef _WIN32
-        return new ConsoleOutput(GetStdHandle( STD_OUTPUT_HANDLE ));
-#else
-        return new ConsoleOutput();
-#endif
-      }
-  };
-
   SingletonContainer<ConsoleOutput> ConsoleOutput::Singleton;
 
   void ConsoleOutput::set_state(FormatState::Color fg,FormatState::Color bg, bool bold)
