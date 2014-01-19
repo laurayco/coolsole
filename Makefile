@@ -12,7 +12,7 @@ MODULE := lib/lib$(PROJECT_NAME)MODULE$(LIB_EXTENSION)
 
 BIN_FILES = $(LIB) $(TEST)
 
-CXXFLAGS := -Wall
+CXXFLAGS := -Wall -g
 
 TEST_SOURCES:=$(wildcard src/test-*.cpp)
 TEST_OBJS := $(patsubst %.cpp, %$(OBJ_EXTENSION),$(patsubst src/%, obj/%,$(TEST_SOURCES)))

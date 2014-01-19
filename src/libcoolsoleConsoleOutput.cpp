@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cstdlib>
-#include <cstring>
 #include "../include/coolsole.hpp"
 
 #define COPY_STRING(s) strcpy((char*)malloc(strlen(s)+1),s)

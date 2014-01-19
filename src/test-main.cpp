@@ -9,9 +9,9 @@ int main(int argc,char **argv)
 {
   StreamFormatter &format_control = ConsoleOutput::Singleton.get_instance();
   FormatState formats[] = {
-    FormatState(format_control,FormatState::White,FormatState::Red,true),
-    FormatState(format_control,FormatState::Blue,FormatState::White,true),
-    FormatState(format_control,FormatState::White,FormatState::Blue,true)
+    FormatState(FormatState::White,FormatState::Red,true),
+    FormatState(FormatState::Blue,FormatState::White,true),
+    FormatState(FormatState::White,FormatState::Blue,true)
   };
   for(unsigned int i=0; i<(sizeof(formats)/sizeof(FormatState)); i++)
   {

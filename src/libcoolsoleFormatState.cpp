@@ -20,51 +20,49 @@ namespace Coolsole {
     return this->_bold;
   }
 
-  void FormatState::apply() {
-    this->output.Format(*this);
+  FormatState::~FormatState()
+  {
   }
 
-  FormatState::~FormatState()
+  FormatState::FormatState():
+    _fg(FormatState::White),
+    _bg(FormatState::Black),
+    _bold(false)
   {
   }
 
   FormatState::FormatState(const FormatState &src):
     _fg(src._fg),
     _bg(src._bg),
-    _bold(src._bold),
-    output(src.output)
+    _bold(src._bold)
   {
   }
 
-  FormatState::FormatState(FormattedOutput &aOutput,FormatState::Color aFg,FormatState::Color aBg, bool aBold):
+  FormatState::FormatState(FormatState::Color aFg,FormatState::Color aBg, bool aBold):
     _fg(aFg),
     _bg(aBg),
-    _bold(aBold),
-    output(aOutput)
+    _bold(aBold)
   {
   }
 
-  FormatState::FormatState(FormattedOutput &aOutput,FormatState::Color aFg, FormatState::Color aBg):
+  FormatState::FormatState(FormatState::Color aFg, FormatState::Color aBg):
     _fg(aFg),
     _bg(aBg),
-    _bold(aOutput.Format().bold()),
-    output(aOutput)
+    _bold(false)
   {
   }
 
-  FormatState::FormatState(FormattedOutput &aOutput,FormatState::Color aFg):
+  FormatState::FormatState(FormatState::Color aFg):
     _fg(aFg),
-    _bg(aOutput.Format().background()),
-    _bold(aOutput.Format().bold()),
-    output(aOutput)
+    _bg(FormatState::Black),
+    _bold(false)
   {
   }
 
-  FormatState::FormatState(FormattedOutput &aOutput,FormatState::Color aFg, bool aBold):
+  FormatState::FormatState(FormatState::Color aFg, bool aBold):
     _fg(aFg),
-    _bg(aOutput.Format().background()),
-    _bold(aBold),
-    output(aOutput)
+    _bg(FormatState::Black),
+    _bold(aBold)
   {
   }
 

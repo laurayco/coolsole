@@ -53,11 +53,12 @@ namespace Coolsole {
         White = 7
 #endif
       };
+      FormatState();
       FormatState(const FormatState &);
-      FormatState(FormattedOutput &,Color); //fg
-      FormatState(FormattedOutput &,Color,bool); //fg,bold
-      FormatState(FormattedOutput &,Color,Color); //fg,bg
-      FormatState(FormattedOutput &,Color,Color,bool); //fg,bg,bold
+      FormatState(Color); //fg
+      FormatState(Color,bool); //fg,bold
+      FormatState(Color,Color); //fg,bg
+      FormatState(Color,Color,bool); //fg,bg,bold
       virtual ~FormatState();//restore previous
       const Color foreground() const;
       const Color background() const;
@@ -65,9 +66,6 @@ namespace Coolsole {
     protected:
       const Color _fg, _bg;
       const bool _bold;
-    private:
-      FormattedOutput &output;
-      void apply();
   };
 
 
