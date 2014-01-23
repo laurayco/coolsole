@@ -16,7 +16,7 @@ PYTHON_VERSION := 33 #obviously this should be changed appropriately.
 
 BIN_FILES = $(LIB) $(TEST) $(MODULE)
 
-CXXFLAGS := -g -std=c++0x -I$(PYTHON_LOCATION)\include
+CXXFLAGS := -g -std=c++0x -I$(PYTHON_LOCATION)\include -fpermissive
 
 TEST_SOURCES:=$(wildcard src/test-*.cpp)
 TEST_OBJS := $(patsubst %.cpp, %$(OBJ_EXTENSION),$(patsubst src/%, obj/%,$(TEST_SOURCES)))

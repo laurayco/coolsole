@@ -23,7 +23,9 @@ static PyObject *say_hello(PyObject *self, PyObject *args)
 
 static void deallocate_formatted_output(coolsole_FormattedOutput *self)
 {
-  delete self->__cpp_object;
+  if(self->__cpp_object) {
+    delete self->__cpp_object;
+  }
 }
 
 static int init_formatted_output(coolsole_FormattedOutput *self, PyObject *args, PyObject *kwds)
@@ -41,9 +43,67 @@ static int init_formatted_output(coolsole_FormattedOutput *self, PyObject *args,
 static PyObject *allocate_formatted_output(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
   coolsole_FormattedOutput *self = (coolsole_FormattedOutput *)type->tp_alloc(type, 0);
-  self->__cpp_object = new Coolsole::FormattedOutput();
+  self->__cpp_object = nullptr;//new Coolsole::FormattedOutput();
   return (PyObject *)self;
 }
+
+
+
+static PyTypeObject coolsole_FormattedOutputType = {
+  PyVarObject_HEAD_INIT(NULL, 0)
+  "coolsole.FormattedOutput",/* tp_name */
+  sizeof(coolsole_FormattedOutput),             /* tp_basicsize */
+  0,                         /* tp_itemsize */
+  (destructor)deallocate_formatted_output, /* tp_dealloc */
+  0,                         /* tp_print */
+  0,                         /* tp_getattr */
+  0,                         /* tp_setattr */
+  0,                         /* tp_reserved */
+  0,                         /* tp_repr */
+  0,                         /* tp_as_number */
+  0,                         /* tp_as_sequence */
+  0,                         /* tp_as_mapping */
+  0,                         /* tp_hash  */
+  0,                         /* tp_call */
+  0,                         /* tp_str */
+  0,                         /* tp_getattro */
+  0,                         /* tp_setattro */
+  0,                         /* tp_as_buffer */
+  Py_TPFLAGS_DEFAULT |
+  Py_TPFLAGS_BASETYPE,   /* tp_flags */
+  "Base class for FormattedOutput control.",           /* tp_doc */
+  0,                         /* tp_traverse */
+  0,                         /* tp_clear */
+  0,                         /* tp_richcompare */
+  0,                         /* tp_weaklistoffset */
+  0,                         /* tp_iter */
+  0,                         /* tp_iternext */
+  0,             /* tp_methods */
+  0,             /* tp_members */
+  0,                         /* tp_getset */
+  0,                         /* tp_base */
+  0,                         /* tp_dict */
+  0,                         /* tp_descr_get */
+  0,                         /* tp_descr_set */
+  0,                         /* tp_dictoffset */
+  (initproc)init_formatted_output, /* tp_init */
+  0,                         /* tp_alloc */
+  allocate_formatted_output, /* tp_new */
+};
+
+static PyMethodDef CoolsoleMethods[] = {
+  {"say_hello", say_hello, METH_VARARGS, "Greet somebody."},
+  {NULL, NULL, 0, NULL}
+};
+
+static struct PyModuleDef coolsole_module = {
+  PyModuleDef_HEAD_INIT,
+  "coolsole",   /* name of module */
+  NULL,      /* module documentation, may be NULL */
+  -1,       /* size of per-interpreter state of the module,
+                or -1 if the module keeps state in global variables. */
+  CoolsoleMethods
+};
 
 PyMODINIT_FUNC PyInit_coolsole(void)
 {
