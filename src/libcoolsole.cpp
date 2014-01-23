@@ -16,10 +16,10 @@ namespace Coolsole {
   template<>
   ConsoleOutput *SingletonContainer<ConsoleOutput>::make_instance()
   {
-#ifdef _WIN32
+    #ifdef _WIN32
     return new ConsoleOutput(GetStdHandle( STD_OUTPUT_HANDLE ));
-#else
+    #else
     return new ConsoleOutput();
-#endif
+    #endif
   }
 }

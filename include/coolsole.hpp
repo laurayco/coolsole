@@ -22,6 +22,11 @@ namespace Coolsole {
   class ColorState;
   class FormattedOutput;
 
+  class Field;
+
+  template<typename...>
+  class Form;
+
   template<typename>
   class SingletonContainer;
 
@@ -32,7 +37,7 @@ namespace Coolsole {
           http://en.wikipedia.org/wiki/ANSI_escape_code#Colors
       */
       enum Color {
-#ifdef _WIN32
+        #ifdef _WIN32
         Black = 0,
         Blue = 1,
         Green = 2,
@@ -42,7 +47,7 @@ namespace Coolsole {
         Yellow = 6,
         White = 7,
         Gray = 8
-#else
+        #else
         Black = 0,
         Blue = 4,
         Green = 2,
@@ -51,7 +56,7 @@ namespace Coolsole {
         Red = 1,
         Purple = 5,
         White = 7
-#endif
+        #endif
       };
       class ScopeHolder {
         private:
@@ -168,15 +173,31 @@ namespace Coolsole {
       virtual void set_state(FormatState::Color,FormatState::Color,bool);//fg,bg,bold
       virtual void reset();
       virtual ~ConsoleOutput();
-#ifdef _WIN32
+      #ifdef _WIN32
       HANDLE console_handle;
       CONSOLE_SCREEN_BUFFER_INFO original_csbi;
       ConsoleOutput(HANDLE);
-#else
+      #else
 
       ConsoleOutput();
-#endif
+      #endif
       static SingletonContainer<ConsoleOutput> Singleton;
+  };
+
+  class Field {
+    protected:
+      Field();
+      virtual void write_to(std::ostream &) const = 0;
+      friend std::ostream &operator << (std::ostream &,const Field &);
+  };
+
+  template<typename ...field_types>
+  class Form {
+    protected:
+      Form();
+  };
+
+  class WindowControl {
   };
 
 }

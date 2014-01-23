@@ -10,7 +10,7 @@ namespace Coolsole {
 
   void ConsoleOutput::set_state(FormatState::Color fg,FormatState::Color bg, bool bold)
   {
-#ifdef _WIN32
+    #ifdef _WIN32
     FormatState::Color mod_fg = fg;
     if(bold) {
       mod_fg = ((FormatState::Color)(((int)fg)+8));
@@ -19,38 +19,38 @@ namespace Coolsole {
       this->console_handle,
       (bg<<4)|mod_fg
     );
-#else
+    #else
     char *set_fg_code = COPY_STRING(SET_FG);
     char *set_bg_code = COPY_STRING(SET_BG);
     set_fg_code[1] = DIGIT_CHAR(base_color(fg));
     set_bg_code[1] = DIGIT_CHAR(base_color(bg));
     std::cout<< START_CODE << set_fg_code << set_bg_code << (bold?SET_BOLD:"") << END_CODE;
-#endif
+    #endif
   }
 
   void ConsoleOutput::reset()
   {
-#ifdef _WIN32
+    #ifdef _WIN32
     SetConsoleTextAttribute(
       this->console_handle,
       this->original_csbi.wAttributes
     );
-#else
+    #else
     std::cout <<  "\033[0m";
-#endif
+    #endif
   }
 
-#ifdef _WIN32
+  #ifdef _WIN32
   ConsoleOutput::ConsoleOutput(HANDLE h)
   {
     this->console_handle = h;
     GetConsoleScreenBufferInfo( this->console_handle, &(this->original_csbi) );
   }
-#else
+  #else
   ConsoleOutput::ConsoleOutput()
   {
   }
-#endif
+  #endif
   ConsoleOutput::~ConsoleOutput()
   {
     this->reset();
