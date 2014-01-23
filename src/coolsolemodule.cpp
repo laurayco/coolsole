@@ -1,5 +1,7 @@
 #include "../include/coolsolemodule.hpp"
 
+#include <Python.h>
+
 static PyObject *say_hello(PyObject *self, PyObject *args)
 {
   const char *name;
@@ -10,13 +12,12 @@ static PyObject *say_hello(PyObject *self, PyObject *args)
   Py_RETURN_NONE;
 }
 
-static PyMethodDef HelloMethods[] =
+PyMODINIT_FUNC PyInit_coolsole(void)
 {
-  {"say_hello", say_hello, METH_VARARGS, "Greet somebody."},
-  {NULL, NULL, 0, NULL}
-};
-
-PyMODINIT_FUNC inithello(void)
-{
-  (void) Py_InitModule("hello", HelloMethods);
+  PyObject *m;
+  m = PyModule_Create(&hello_module);
+  if (m == NULL) {
+    return NULL;
+  }
+  return m;
 }
