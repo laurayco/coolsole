@@ -14,7 +14,7 @@ MODULE := bin/$(PROJECT_NAME)$(MODULE_EXTENSION)
 PYTHON_LOCATION := $(PYTHON)#wherever your python binary is located.
 PYTHON_VERSION := 33 #obviously this should be changed appropriately.
 
-BIN_FILES = $(LIB) $(TEST) $(MODULE)
+BIN_FILES := $(LIB) $(TEST)# $(MODULE)
 
 CXXFLAGS := -g -std=c++0x -I$(PYTHON_LOCATION)\include -fpermissive
 
