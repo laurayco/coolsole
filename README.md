@@ -31,10 +31,6 @@ Then, just use your format control using the methods foreground, background, etc
 
 #To-Do
 * Python 3.x bindings.
-* Create a "FormatHold" class that can be used to apply a format
-  to the output of an entire scope.
-* Create a stream-based FormattedOutput class that doesn't
-  actually modify output in any way at all.
 * Create an HTML formatted output that inherits from a
   stream-based std::out handler. Will use inline styles,
   *or* foreground-color, background-color, and bold classes.
